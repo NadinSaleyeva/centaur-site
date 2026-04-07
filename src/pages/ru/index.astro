@@ -1,0 +1,52 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import HeroSection from '../../components/blocks/HeroSection.astro';
+import MetricsTrust from '../../components/blocks/MetricsTrust.astro';
+import ServiceCards from '../../components/blocks/ServiceCards.astro';
+import AgentVsBot from '../../components/blocks/AgentVsBot.astro';
+import IndustryGrid from '../../components/blocks/IndustryGrid.astro';
+import ProcessTimeline from '../../components/blocks/ProcessTimeline.astro';
+import CTABlock from '../../components/shared/CTABlock.astro';
+import { t } from '../../i18n/config';
+---
+
+<PageLayout
+  title="Автоматизация бизнес-процессов с ИИ — Centaur Labs"
+  description="Бутиковое ИИ-агентство. Внедряем автономных ИИ-агентов для автоматизации бизнес-процессов. Чат-боты говорят — ИИ-агенты действуют."
+>
+  <!-- 01. Hero -->
+  <HeroSection
+    eyebrow={t('site.tagline')}
+    headline={t('hero.headline')}
+    subheadline={t('hero.subheadline')}
+    cta={{ text: t('hero.cta.primary'), link: '/ru/audit/' }}
+    secondaryCTA={{ text: t('hero.cta.secondary'), link: '/ru/kejsy/' }}
+  />
+
+  <!-- 02. Метрики доверия -->
+  <MetricsTrust
+    metrics={[
+      { value: '10+', label: t('metrics.implementations') },
+      { value: '40%', label: t('metrics.saving') },
+      { value: '4–6 нед.', label: t('metrics.launch') },
+      { value: '6', label: t('metrics.industries') },
+    ]}
+  />
+
+  <!-- 03. Обзор услуг -->
+  <ServiceCards />
+
+  <!-- 04. ИИ-агент ≠ чат-бот -->
+  <AgentVsBot />
+
+  <!-- 05. Отрасли -->
+  <IndustryGrid />
+
+  <!-- 06. Как мы работаем -->
+  <ProcessTimeline />
+
+  <!-- 07. Социальное доказательство (placeholder) -->
+
+  <!-- 08. Финальный CTA -->
+  <CTABlock />
+</PageLayout>

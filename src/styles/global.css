@@ -1,0 +1,60 @@
+/* Mulish — brand typeface, Cyrillic support */
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700&subset=cyrillic&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  /* Brand — base palette */
+  --color-primary: #000099;
+  --color-primary-light: #0000BA;
+  --color-primary-bright: #1A1AFF;
+  --color-black: #000000;
+  --color-gray: #939598;
+  --color-white: #FFFFFF;
+
+  /* Brand — accent (star yellow-orange) */
+  --color-accent: #F5A623;
+  --color-accent-light: #FFD97A;
+  --color-accent-lightest: #FFF3D6;
+  --color-accent-dark: #C97B10;
+  --color-accent-darkest: #7A4800;
+
+  /* Semantic */
+  --color-bg: #FFFFFF;
+  --color-bg-subtle: #F8F9FA;
+  --color-bg-dark: #0a0a2e;
+  --color-border: #E2E4E8;
+  --color-success: #10B981;
+  --color-error: #EF4444;
+
+  /* Hero gradient */
+  --color-hero-from: #0a0a2e;
+  --color-hero-via: #0f1152;
+  --color-hero-to: #1a1a6e;
+
+  /* Fonts */
+  --font-heading: 'Mulish', sans-serif;
+  --font-body: 'Mulish', sans-serif;
+}
+
+/* Base */
+body {
+  font-family: var(--font-body);
+  color: var(--color-black);
+  background-color: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+::selection {
+  background-color: var(--color-primary);
+  color: white;
+}

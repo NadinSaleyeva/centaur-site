@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 62.94 65.78">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #ffffff;
+      }
+
+      .cls-1, .cls-2 {
+        stroke-width: 0px;
+      }
+
+      .cls-2 {
+        fill: #c87c29;
+      }
+    </style>
+  </defs>
+  <g>
+    <path class="cls-1" d="m.11,0v12.89h37.88s9.23.23,9.23,8.47c0,0,1.75,9-8.62,10.65l-38.61.1v33.64h13.82l-.08-20.83,17.53.08,15.49,20.75,16.17.03-16.89-23.26s16.21-3.32,15.42-21.88c0,0-1.04-19.8-22.47-20.59L.11,0Z"/>
+    <circle class="cls-2" cx="36.09" cy="21.43" r="5.72"/>
+  </g>
+</svg>

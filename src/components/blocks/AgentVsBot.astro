@@ -1,0 +1,65 @@
+---
+import { t } from '../../i18n/config';
+---
+
+<section class="py-24 md:py-32 bg-bg-subtle">
+  <div class="max-w-[1120px] mx-auto px-6 lg:px-8">
+    <div class="text-center max-w-2xl mx-auto mb-16">
+      <h2 class="text-3xl md:text-4xl font-bold text-primary mb-4">{t('agentvsbot.title')}</h2>
+      <p class="text-lg text-gray">{t('agentvsbot.subtitle')}</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+      <!-- Bot -->
+      <div class="p-8 rounded-xl border border-border bg-white">
+        <div class="w-10 h-10 rounded-lg bg-gray/10 flex items-center justify-center mb-5">
+          <svg class="w-5 h-5 text-gray" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        </div>
+        <h3 class="text-lg font-bold text-black mb-4">{t('agentvsbot.bot.title')}</h3>
+        <ul class="space-y-3">
+          <li class="flex items-start gap-3 text-sm text-gray">
+            <svg class="w-5 h-5 text-error shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+            {t('agentvsbot.bot.1')}
+          </li>
+          <li class="flex items-start gap-3 text-sm text-gray">
+            <svg class="w-5 h-5 text-error shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+            {t('agentvsbot.bot.2')}
+          </li>
+          <li class="flex items-start gap-3 text-sm text-gray">
+            <svg class="w-5 h-5 text-error shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+            {t('agentvsbot.bot.3')}
+          </li>
+        </ul>
+      </div>
+
+      <!-- Agent -->
+      <div class="p-8 rounded-xl border-2 border-primary bg-primary/5">
+        <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-5">
+          <svg class="w-5 h-5 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        <h3 class="text-lg font-bold text-primary mb-4">{t('agentvsbot.agent.title')}</h3>
+        <ul class="space-y-3">
+          <li class="flex items-start gap-3 text-sm text-black">
+            <svg class="w-5 h-5 text-success shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+            {t('agentvsbot.agent.1')}
+          </li>
+          <li class="flex items-start gap-3 text-sm text-black">
+            <svg class="w-5 h-5 text-success shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+            {t('agentvsbot.agent.2')}
+          </li>
+          <li class="flex items-start gap-3 text-sm text-black">
+            <svg class="w-5 h-5 text-success shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+            {t('agentvsbot.agent.3')}
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="text-center mt-10">
+      <a href="/ru/ii-agent-vs-chat-bot/" class="inline-flex items-center gap-2 text-primary text-sm font-medium hover:gap-3 transition-all">
+        {t('agentvsbot.link')}
+        <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="8" x2="13" y2="8"/><polyline points="9,4 13,8 9,12"/></svg>
+      </a>
+    </div>
+  </div>
+</section>

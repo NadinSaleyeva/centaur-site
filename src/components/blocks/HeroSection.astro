@@ -1,0 +1,52 @@
+---
+import { t } from '../../i18n/config';
+
+interface Props {
+  headline: string;
+  subheadline?: string;
+  cta: { text: string; link: string };
+  secondaryCTA?: { text: string; link: string };
+  eyebrow?: string;
+}
+
+const { headline, subheadline, cta, secondaryCTA, eyebrow } = Astro.props;
+---
+
+<section class="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden">
+  <div class="absolute inset-0 bg-gradient-to-br from-hero-from via-hero-via to-hero-to">
+    <div class="absolute bottom-0 left-0 right-0 h-1 bg-accent"></div>
+  </div>
+
+  <div class="relative z-10 max-w-4xl mx-auto px-6 text-center">
+    {eyebrow && (
+      <p class="text-accent font-medium text-sm uppercase tracking-[0.2em] mb-8">{eyebrow}</p>
+    )}
+
+    <h1 class="text-4xl md:text-5xl lg:text-7xl font-light text-white leading-[1.1] mb-8 whitespace-pre-line">
+      {headline}
+    </h1>
+
+    {subheadline && (
+      <p class="text-lg md:text-xl text-white/60 leading-relaxed max-w-2xl mx-auto mb-12">
+        {subheadline}
+      </p>
+    )}
+
+    <div class="flex flex-col sm:flex-row justify-center gap-4">
+      <a href={cta.link} class="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-lg bg-accent text-white text-sm font-semibold uppercase tracking-wider hover:bg-accent-dark transition-all duration-200">
+        {cta.text}
+      </a>
+      {secondaryCTA && (
+        <a href={secondaryCTA.link} class="inline-flex items-center justify-center px-7 py-3.5 rounded-lg border-2 border-white/60 text-white text-sm font-semibold uppercase tracking-wider hover:bg-white hover:text-primary transition-all duration-200">
+          {secondaryCTA.text}
+        </a>
+      )}
+    </div>
+  </div>
+
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
+    <div class="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
+      <div class="w-1 h-3 bg-white/50 rounded-full mt-2 animate-bounce"></div>
+    </div>
+  </div>
+</section>
