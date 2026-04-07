@@ -4,6 +4,8 @@ import HeroSection from '../../components/blocks/HeroSection.astro';
 import MetricsTrust from '../../components/blocks/MetricsTrust.astro';
 import ServiceCards from '../../components/blocks/ServiceCards.astro';
 import AgentVsBot from '../../components/blocks/AgentVsBot.astro';
+import WorkflowAnimation from '../../components/blocks/WorkflowAnimation.astro';
+import SectionDivider from '../../components/shared/SectionDivider.astro';
 import IndustryGrid from '../../components/blocks/IndustryGrid.astro';
 import ProcessTimeline from '../../components/blocks/ProcessTimeline.astro';
 import CTABlock from '../../components/shared/CTABlock.astro';
@@ -36,13 +38,21 @@ import { t } from '../../i18n/config';
   <!-- 03. Обзор услуг -->
   <ServiceCards />
 
+  <!-- Разделитель -->
+  <SectionDivider text="ИИ-АГЕНТЫ В ДЕЙСТВИИ" />
+
+  <!-- Workflow Animation -->
+  <WorkflowAnimation />
+
   <!-- 04. ИИ-агент ≠ чат-бот -->
   <AgentVsBot />
 
   <!-- 05. Отрасли -->
+  <SectionDivider text="ДЛЯ КОГО" />
   <IndustryGrid />
 
   <!-- 06. Как мы работаем -->
+  <SectionDivider text="КАК МЫ РАБОТАЕМ" />
   <ProcessTimeline />
 
   <!-- 07. Социальное доказательство (placeholder) -->

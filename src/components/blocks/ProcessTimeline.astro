@@ -9,24 +9,24 @@ const steps = [
 ];
 ---
 
-<section id="process" class="py-24 md:py-32 bg-gradient-to-br from-hero-from via-hero-via to-hero-to">
-  <div class="max-w-[1120px] mx-auto px-6 lg:px-8">
-    <div class="text-center max-w-2xl mx-auto mb-16">
-      <p class="text-accent font-medium text-sm uppercase tracking-[0.2em] mb-4">{t('process.eyebrow')}</p>
-      <h2 class="text-3xl md:text-4xl font-bold text-white leading-tight">{t('process.title')}</h2>
+<section id="process" class="pt-10 pb-24 md:pb-32 bg-white">
+  <div class="max-w-[1656px] mx-auto px-6 lg:px-8">
+    <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-6 mb-16 md:mb-20">
+      <h2 class="text-5xl md:text-6xl lg:text-[120px] font-light text-[#1a1a1a] leading-[1.0] tracking-tight">{t('process.title')}</h2>
+      <p class="md:max-w-[380px] text-[#333] text-base md:text-[17px] leading-relaxed md:pt-4 shrink-0">{t('process.description')}</p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       {steps.map((step, i) => (
-        <div class="relative p-6 rounded-xl border border-white/10 bg-white/5">
+        <div class="relative p-6 rounded-xl border border-[#e5e5e5] bg-white hover:shadow-md transition-all duration-300">
           <div class="flex items-center gap-3 mb-4">
-            <span class="w-9 h-9 rounded-full bg-accent flex items-center justify-center text-white text-xs font-bold">{step.num}</span>
-            <span class="text-xs text-accent font-medium uppercase tracking-wider">{step.time}</span>
+            <span class="w-9 h-9 rounded-full bg-[#1a1a1a] flex items-center justify-center text-white text-xs font-bold">{step.num}</span>
+            <span class="text-xs text-[#8a7a6b] font-medium uppercase tracking-wider">{step.time}</span>
           </div>
-          <h3 class="text-base font-bold text-white mb-2">{step.title}</h3>
-          <p class="text-sm text-white/60 leading-relaxed">{step.desc}</p>
+          <h3 class="text-base font-bold text-[#1a1a1a] mb-2">{step.title}</h3>
+          <p class="text-sm text-[#666] leading-relaxed">{step.desc}</p>
           {i < steps.length - 1 && (
-            <div class="hidden lg:block absolute top-1/2 -right-3 w-6 text-white/20">
+            <div class="hidden lg:block absolute top-1/2 -right-3 w-6 text-[#d0d0d0]">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9,6 15,12 9,18"/></svg>
             </div>
           )}
@@ -35,7 +35,7 @@ const steps = [
     </div>
 
     <div class="text-center mt-10">
-      <a href="/ru/kak-my-rabotaem/" class="inline-flex items-center gap-2 text-accent text-sm font-medium hover:gap-3 transition-all">
+      <a href="/ru/kak-my-rabotaem/" class="inline-flex items-center gap-2 text-[#1a1a1a] text-sm font-medium hover:gap-3 transition-all">
         {t('process.link')}
         <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="8" x2="13" y2="8"/><polyline points="9,4 13,8 9,12"/></svg>
       </a>

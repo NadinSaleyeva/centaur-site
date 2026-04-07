@@ -18,6 +18,7 @@ export const ru = {
   // Services
   'services.eyebrow': 'Что мы делаем',
   'services.title': 'Решения для вашего бизнеса',
+  'services.description': 'Внедряем ИИ-агентов, которые автоматизируют реальные бизнес-процессы — от обработки заявок до полной автоматизации отделов.',
   'services.link': 'Подробнее',
 
   // Agent vs Bot
@@ -36,10 +37,12 @@ export const ru = {
   // Industries
   'industries.eyebrow': 'Для кого',
   'industries.title': 'Отрасли, которые мы автоматизируем',
+  'industries.description': 'Работаем с бизнесами, где ИИ-агенты дают максимальный эффект — от e-commerce до HoReCa.',
 
   // Process
   'process.eyebrow': 'Как мы работаем',
   'process.title': 'От аудита до запуска – за 4–6 недель',
+  'process.description': 'Прозрачный процесс с чёткими сроками на каждом этапе — от первой встречи до запуска в продакшн.',
   'process.link': 'Подробнее о процессе',
   'process.1.title': 'Бесплатный аудит',
   'process.1.desc': 'Оцениваем процессы, находим точки автоматизации с максимальным ROI.',

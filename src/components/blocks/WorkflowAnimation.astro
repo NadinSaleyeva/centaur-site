@@ -1,0 +1,235 @@
+---
+---
+
+<section class="py-20 bg-white overflow-hidden">
+  <div class="max-w-[1656px] mx-auto px-6 lg:px-8">
+    <svg id="workflow-svg" viewBox="0 0 1120 200" class="w-full h-auto" preserveAspectRatio="xMidYMid meet">
+      <defs>
+        <!-- Animated gradient for the running stroke -->
+        <linearGradient id="pulse-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="transparent" />
+          <stop offset="40%" stop-color="transparent" />
+          <stop offset="50%" stop-color="#c87c29" />
+          <stop offset="60%" stop-color="transparent" />
+          <stop offset="100%" stop-color="transparent" />
+        </linearGradient>
+      </defs>
+
+      <!-- Connection lines (thin, gray) -->
+      <!-- Line 1→2 -->
+      <line x1="145" y1="100" x2="235" y2="100" stroke="#d0d0d0" stroke-width="1" />
+      <!-- Line 2→3 -->
+      <line x1="325" y1="100" x2="415" y2="100" stroke="#d0d0d0" stroke-width="1" />
+      <!-- Line 3→4 -->
+      <line x1="505" y1="100" x2="595" y2="100" stroke="#d0d0d0" stroke-width="1" />
+      <!-- Line 4→5 -->
+      <line x1="685" y1="100" x2="775" y2="100" stroke="#d0d0d0" stroke-width="1" />
+      <!-- Line 5→6 -->
+      <line x1="865" y1="100" x2="955" y2="100" stroke="#d0d0d0" stroke-width="1" />
+
+      <!-- Animated pulse lines (overlay) -->
+      <line class="pulse-line" x1="145" y1="100" x2="235" y2="100" stroke="#c87c29" stroke-width="1.5" stroke-dasharray="20 70" stroke-dashoffset="0" opacity="0" />
+      <line class="pulse-line" x1="325" y1="100" x2="415" y2="100" stroke="#c87c29" stroke-width="1.5" stroke-dasharray="20 70" stroke-dashoffset="0" opacity="0" />
+      <line class="pulse-line" x1="505" y1="100" x2="595" y2="100" stroke="#c87c29" stroke-width="1.5" stroke-dasharray="20 70" stroke-dashoffset="0" opacity="0" />
+      <line class="pulse-line" x1="685" y1="100" x2="775" y2="100" stroke="#c87c29" stroke-width="1.5" stroke-dasharray="20 70" stroke-dashoffset="0" opacity="0" />
+      <line class="pulse-line" x1="865" y1="100" x2="955" y2="100" stroke="#c87c29" stroke-width="1.5" stroke-dasharray="20 70" stroke-dashoffset="0" opacity="0" />
+
+      <!-- Node 1 -->
+      <g class="workflow-node" data-index="0">
+        <rect x="55" y="60" width="90" height="80" rx="8" fill="white" stroke="#d0d0d0" stroke-width="1" />
+        <rect class="node-border" x="55" y="60" width="90" height="80" rx="8" fill="none" stroke="#c87c29" stroke-width="2" stroke-dasharray="340" stroke-dashoffset="340" />
+        <circle cx="100" cy="92" r="4" fill="#c87c29" opacity="0.4" />
+        <line x1="75" y1="108" x2="125" y2="108" stroke="#e0e0e0" stroke-width="1" />
+        <line x1="75" y1="118" x2="110" y2="118" stroke="#e8e8e8" stroke-width="1" />
+      </g>
+
+      <!-- Node 2 -->
+      <g class="workflow-node" data-index="1">
+        <rect x="235" y="60" width="90" height="80" rx="8" fill="white" stroke="#d0d0d0" stroke-width="1" />
+        <rect class="node-border" x="235" y="60" width="90" height="80" rx="8" fill="none" stroke="#c87c29" stroke-width="2" stroke-dasharray="340" stroke-dashoffset="340" />
+        <path d="M270 88 L280 98 L290 88" fill="none" stroke="#d0d0d0" stroke-width="1.5" />
+        <path d="M270 88 L280 78 L290 88" fill="none" stroke="#d0d0d0" stroke-width="1.5" />
+        <circle cx="280" cy="88" r="2" fill="#c87c29" opacity="0.4" />
+        <line x1="258" y1="108" x2="302" y2="108" stroke="#e0e0e0" stroke-width="1" />
+        <line x1="258" y1="118" x2="290" y2="118" stroke="#e8e8e8" stroke-width="1" />
+      </g>
+
+      <!-- Node 3 -->
+      <g class="workflow-node" data-index="2">
+        <rect x="415" y="60" width="90" height="80" rx="8" fill="white" stroke="#d0d0d0" stroke-width="1" />
+        <rect class="node-border" x="415" y="60" width="90" height="80" rx="8" fill="none" stroke="#c87c29" stroke-width="2" stroke-dasharray="340" stroke-dashoffset="340" />
+        <rect x="445" y="80" width="30" height="20" rx="2" fill="none" stroke="#d0d0d0" stroke-width="1" />
+        <line x1="449" y1="86" x2="471" y2="86" stroke="#e0e0e0" stroke-width="1" />
+        <line x1="449" y1="92" x2="465" y2="92" stroke="#e8e8e8" stroke-width="1" />
+        <circle cx="472" cy="82" r="2" fill="#c87c29" opacity="0.4" />
+        <line x1="438" y1="112" x2="482" y2="112" stroke="#e0e0e0" stroke-width="1" />
+        <line x1="438" y1="122" x2="470" y2="122" stroke="#e8e8e8" stroke-width="1" />
+      </g>
+
+      <!-- Node 4 -->
+      <g class="workflow-node" data-index="3">
+        <rect x="595" y="60" width="90" height="80" rx="8" fill="white" stroke="#d0d0d0" stroke-width="1" />
+        <rect class="node-border" x="595" y="60" width="90" height="80" rx="8" fill="none" stroke="#c87c29" stroke-width="2" stroke-dasharray="340" stroke-dashoffset="340" />
+        <circle cx="640" cy="88" r="10" fill="none" stroke="#d0d0d0" stroke-width="1" />
+        <circle cx="640" cy="88" r="3" fill="#c87c29" opacity="0.4" />
+        <line x1="618" y1="108" x2="662" y2="108" stroke="#e0e0e0" stroke-width="1" />
+        <line x1="618" y1="118" x2="650" y2="118" stroke="#e8e8e8" stroke-width="1" />
+      </g>
+
+      <!-- Node 5 -->
+      <g class="workflow-node" data-index="4">
+        <rect x="775" y="60" width="90" height="80" rx="8" fill="white" stroke="#d0d0d0" stroke-width="1" />
+        <rect class="node-border" x="775" y="60" width="90" height="80" rx="8" fill="none" stroke="#c87c29" stroke-width="2" stroke-dasharray="340" stroke-dashoffset="340" />
+        <line x1="800" y1="82" x2="840" y2="82" stroke="#d0d0d0" stroke-width="1.5" />
+        <line x1="800" y1="90" x2="835" y2="90" stroke="#e0e0e0" stroke-width="1" />
+        <line x1="800" y1="98" x2="825" y2="98" stroke="#e8e8e8" stroke-width="1" />
+        <circle cx="843" cy="82" r="2" fill="#c87c29" opacity="0.4" />
+        <line x1="798" y1="112" x2="842" y2="112" stroke="#e0e0e0" stroke-width="1" />
+        <line x1="798" y1="122" x2="830" y2="122" stroke="#e8e8e8" stroke-width="1" />
+      </g>
+
+      <!-- Node 6 -->
+      <g class="workflow-node" data-index="5">
+        <rect x="955" y="60" width="90" height="80" rx="8" fill="white" stroke="#d0d0d0" stroke-width="1" />
+        <rect class="node-border" x="955" y="60" width="90" height="80" rx="8" fill="none" stroke="#c87c29" stroke-width="2" stroke-dasharray="340" stroke-dashoffset="340" />
+        <line x1="980" y1="85" x2="990" y2="85" stroke="#d0d0d0" stroke-width="2" />
+        <line x1="995" y1="85" x2="1005" y2="85" stroke="#d0d0d0" stroke-width="2" />
+        <line x1="1010" y1="85" x2="1020" y2="85" stroke="#d0d0d0" stroke-width="2" />
+        <line x1="985" y1="78" x2="985" y2="95" stroke="#d0d0d0" stroke-width="1" />
+        <line x1="1015" y1="78" x2="1015" y2="95" stroke="#d0d0d0" stroke-width="1" />
+        <circle cx="1000" cy="85" r="2" fill="#c87c29" opacity="0.4" />
+        <line x1="978" y1="112" x2="1022" y2="112" stroke="#e0e0e0" stroke-width="1" />
+        <line x1="978" y1="122" x2="1010" y2="122" stroke="#e8e8e8" stroke-width="1" />
+      </g>
+
+      <!-- Connection dots on lines -->
+      <circle cx="190" cy="100" r="2.5" fill="white" stroke="#d0d0d0" stroke-width="1" />
+      <circle cx="370" cy="100" r="2.5" fill="white" stroke="#d0d0d0" stroke-width="1" />
+      <circle cx="550" cy="100" r="2.5" fill="white" stroke="#d0d0d0" stroke-width="1" />
+      <circle cx="730" cy="100" r="2.5" fill="white" stroke="#d0d0d0" stroke-width="1" />
+      <circle cx="910" cy="100" r="2.5" fill="white" stroke="#d0d0d0" stroke-width="1" />
+    </svg>
+  </div>
+</section>
+
+<script>
+  const svg = document.getElementById('workflow-svg');
+  if (svg) {
+    const nodes = svg.querySelectorAll('.workflow-node');
+    const pulseLines = svg.querySelectorAll('.pulse-line');
+    const borders = svg.querySelectorAll('.node-border') as NodeListOf<SVGRectElement>;
+    const perimeter = 340; // approx perimeter of 90x80 rounded rect
+    let activeIndex = -1;
+    let animating = false;
+
+    function activateNode(index: number) {
+      if (index === activeIndex || index < 0 || index >= nodes.length) return;
+
+      // Reset all
+      borders.forEach((b) => {
+        b.style.transition = 'stroke-dashoffset 0.4s ease';
+        b.setAttribute('stroke-dashoffset', String(perimeter));
+      });
+      pulseLines.forEach((l) => {
+        (l as SVGElement).style.transition = 'opacity 0.3s';
+        l.setAttribute('opacity', '0');
+      });
+
+      // Activate current node border
+      const border = nodes[index].querySelector('.node-border') as SVGRectElement;
+      border.style.transition = 'stroke-dashoffset 0.6s ease';
+      border.setAttribute('stroke-dashoffset', '0');
+
+      // Activate connecting lines (left and right of node)
+      if (index > 0) {
+        const leftLine = pulseLines[index - 1] as SVGElement;
+        leftLine.style.transition = 'opacity 0.3s';
+        leftLine.setAttribute('opacity', '1');
+      }
+      if (index < pulseLines.length) {
+        const rightLine = pulseLines[index] as SVGElement;
+        rightLine.style.transition = 'opacity 0.3s';
+        rightLine.setAttribute('opacity', '1');
+      }
+
+      activeIndex = index;
+    }
+
+    function deactivateAll() {
+      borders.forEach((b) => {
+        b.style.transition = 'stroke-dashoffset 0.4s ease';
+        b.setAttribute('stroke-dashoffset', String(perimeter));
+      });
+      pulseLines.forEach((l) => {
+        (l as SVGElement).style.transition = 'opacity 0.3s';
+        l.setAttribute('opacity', '0');
+      });
+      activeIndex = -1;
+    }
+
+    // Animate dash offset on pulse lines
+    let dashOffset = 0;
+    function animatePulse() {
+      dashOffset -= 1.5;
+      pulseLines.forEach((l) => {
+        l.setAttribute('stroke-dashoffset', String(dashOffset));
+      });
+      requestAnimationFrame(animatePulse);
+    }
+    animatePulse();
+
+    // Mouse interaction
+    svg.addEventListener('mousemove', (e: MouseEvent) => {
+      const rect = svg.getBoundingClientRect();
+      const svgX = ((e.clientX - rect.left) / rect.width) * 1120;
+
+      // Determine which node is closest
+      const nodeCenters = [100, 280, 460, 640, 820, 1000];
+      let closest = -1;
+      let minDist = Infinity;
+      for (let i = 0; i < nodeCenters.length; i++) {
+        const dist = Math.abs(svgX - nodeCenters[i]);
+        if (dist < minDist) {
+          minDist = dist;
+          closest = i;
+        }
+      }
+
+      if (minDist < 90) {
+        activateNode(closest);
+      } else {
+        deactivateAll();
+      }
+    });
+
+    svg.addEventListener('mouseleave', () => {
+      deactivateAll();
+    });
+
+    // Auto-play animation on load
+    let autoIndex = 0;
+    let autoInterval: ReturnType<typeof setInterval>;
+
+    function startAutoPlay() {
+      autoInterval = setInterval(() => {
+        activateNode(autoIndex);
+        autoIndex = (autoIndex + 1) % nodes.length;
+      }, 800);
+    }
+
+    function stopAutoPlay() {
+      clearInterval(autoInterval);
+    }
+
+    startAutoPlay();
+
+    svg.addEventListener('mouseenter', () => {
+      stopAutoPlay();
+    });
+
+    svg.addEventListener('mouseleave', () => {
+      autoIndex = 0;
+      startAutoPlay();
+    });
+  }
+</script>

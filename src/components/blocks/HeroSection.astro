@@ -12,41 +12,257 @@ interface Props {
 const { headline, subheadline, cta, secondaryCTA, eyebrow } = Astro.props;
 ---
 
-<section class="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden">
-  <div class="absolute inset-0 bg-gradient-to-br from-hero-from via-hero-via to-hero-to">
-    <div class="absolute bottom-0 left-0 right-0 h-1 bg-accent"></div>
-  </div>
+<section class="relative min-h-screen flex items-center overflow-hidden bg-white" id="hero-section">
+  <canvas id="constellation-canvas" class="hidden lg:block absolute inset-0 w-full h-full z-[1] pointer-events-none"></canvas>
 
-  <div class="relative z-10 max-w-4xl mx-auto px-6 text-center">
+  <div class="relative z-10 max-w-[1656px] mx-auto px-6 lg:px-8 w-full pt-24">
     {eyebrow && (
-      <p class="text-accent font-medium text-sm uppercase tracking-[0.2em] mb-8">{eyebrow}</p>
+      <p class="text-[16px] font-medium tracking-[0.2em] uppercase text-[#8a7a6b] mb-6">{eyebrow}</p>
     )}
 
-    <h1 class="text-4xl md:text-5xl lg:text-7xl font-light text-white leading-[1.1] mb-8 whitespace-pre-line">
+    <h1 class="text-5xl md:text-6xl lg:text-[85px] font-extrabold text-[#1a1a1a] leading-[1.05] mb-10 whitespace-pre-line tracking-tight lg:max-w-[55%]">
       {headline}
     </h1>
 
-    {subheadline && (
-      <p class="text-lg md:text-xl text-white/60 leading-relaxed max-w-2xl mx-auto mb-12">
-        {subheadline}
-      </p>
-    )}
-
-    <div class="flex flex-col sm:flex-row justify-center gap-4">
-      <a href={cta.link} class="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-lg bg-accent text-white text-sm font-semibold uppercase tracking-wider hover:bg-accent-dark transition-all duration-200">
-        {cta.text}
-      </a>
-      {secondaryCTA && (
-        <a href={secondaryCTA.link} class="inline-flex items-center justify-center px-7 py-3.5 rounded-lg border-2 border-white/60 text-white text-sm font-semibold uppercase tracking-wider hover:bg-white hover:text-primary transition-all duration-200">
-          {secondaryCTA.text}
-        </a>
+    <div class="flex flex-col md:flex-row md:items-end gap-10 lg:max-w-[55%]">
+      {subheadline && (
+        <p class="max-w-md text-[16px] text-[#666] leading-relaxed font-medium">
+          {subheadline}
+        </p>
       )}
+
+      <div class="flex flex-col sm:flex-row gap-4 shrink-0">
+        <a href={cta.link} class="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-[#1a1a1a] text-white text-sm font-semibold uppercase tracking-wider hover:bg-[#333] transition-all duration-200">
+          {cta.text}
+          <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="12" x2="12" y2="4"/><polyline points="5,4 12,4 12,11"/></svg>
+        </a>
+        {secondaryCTA && (
+          <a href={secondaryCTA.link} class="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full border border-[#1a1a1a]/20 text-[#1a1a1a] text-sm font-semibold uppercase tracking-wider hover:bg-[#1a1a1a] hover:text-white transition-all duration-200">
+            {secondaryCTA.text}
+            <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="12" x2="12" y2="4"/><polyline points="5,4 12,4 12,11"/></svg>
+          </a>
+        )}
+      </div>
     </div>
   </div>
 
-  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
-    <div class="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
-      <div class="w-1 h-3 bg-white/50 rounded-full mt-2 animate-bounce"></div>
-    </div>
-  </div>
 </section>
+
+<script>
+  const canvas = document.getElementById('constellation-canvas') as HTMLCanvasElement;
+  if (canvas) {
+    const ctx = canvas.getContext('2d')!;
+    let width = 0, height = 0;
+    let mouse = { x: -999, y: -999 };
+    const MOUSE_RADIUS = 250;
+
+    interface Node {
+      x: number; y: number;
+      ox: number; oy: number;
+      vx: number; vy: number;
+      radius: number;
+      brightness: number;
+      connections: number[];
+      phase: number;
+    }
+
+    let nodes: Node[] = [];
+
+    function resize() {
+      const dpr = window.devicePixelRatio || 1;
+      width = canvas.offsetWidth;
+      height = canvas.offsetHeight;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      ctx.scale(dpr, dpr);
+      buildConstellation();
+    }
+
+    function buildConstellation() {
+      nodes = [];
+      const cx = width * 0.72;
+      const cy = height * 0.5;
+      const scale = Math.min(width, height) * 0.38;
+
+      // Centaurus constellation — real star positions (simplified)
+      const pattern = [
+        // Alpha Centauri (brightest — Rigil Kentaurus)
+        { x: 0.55, y: 0.45, r: 4 },
+        // Beta Centauri (Hadar)
+        { x: 0.45, y: 0.55, r: 3.5 },
+        // Theta Centauri (Menkent) — head
+        { x: -0.3, y: -0.55, r: 3 },
+        // Gamma Centauri
+        { x: 0.05, y: -0.05, r: 2.5 },
+        // Epsilon Centauri
+        { x: 0.25, y: 0.15, r: 2.5 },
+        // Zeta Centauri
+        { x: 0.35, y: 0.3, r: 2 },
+        // Eta Centauri
+        { x: 0.15, y: 0.05, r: 2 },
+        // Delta Centauri
+        { x: -0.05, y: -0.2, r: 2 },
+        // Iota Centauri
+        { x: -0.2, y: -0.35, r: 1.8 },
+        // Nu Centauri
+        { x: 0.0, y: 0.15, r: 1.5 },
+        // Mu Centauri
+        { x: 0.1, y: 0.25, r: 1.5 },
+        // Kappa Centauri — front leg
+        { x: -0.5, y: 0.1, r: 1.8 },
+        // Lambda Centauri
+        { x: -0.15, y: 0.0, r: 1.5 },
+        // Pi Centauri
+        { x: -0.4, y: -0.15, r: 1.2 },
+        // Sigma Centauri
+        { x: 0.3, y: 0.0, r: 1.2 },
+        // Tau Centauri
+        { x: -0.55, y: -0.3, r: 1 },
+        // Rho Centauri
+        { x: -0.35, y: -0.45, r: 1 },
+        // Background stars for atmosphere
+        { x: 0.7, y: 0.3, r: 0.6 },
+        { x: -0.65, y: 0.25, r: 0.6 },
+        { x: 0.6, y: -0.3, r: 0.6 },
+        { x: -0.7, y: -0.5, r: 0.6 },
+        { x: 0.5, y: -0.5, r: 0.5 },
+        { x: -0.6, y: 0.5, r: 0.5 },
+        { x: 0.75, y: 0.0, r: 0.5 },
+        { x: -0.75, y: 0.0, r: 0.5 },
+        { x: 0.0, y: -0.7, r: 0.5 },
+        { x: 0.0, y: 0.65, r: 0.5 },
+        { x: 0.65, y: 0.55, r: 0.4 },
+        { x: -0.5, y: -0.6, r: 0.4 },
+      ];
+
+      pattern.forEach((p) => {
+        nodes.push({
+          x: cx + p.x * scale,
+          y: cy + p.y * scale,
+          ox: cx + p.x * scale,
+          oy: cy + p.y * scale,
+          vx: 0, vy: 0,
+          radius: p.r,
+          brightness: 0.2 + Math.random() * 0.25,
+          connections: [],
+          phase: Math.random() * Math.PI * 2,
+        });
+      });
+
+      const maxDist = scale * 0.45;
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const dx = nodes[i].ox - nodes[j].ox;
+          const dy = nodes[i].oy - nodes[j].oy;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < maxDist) {
+            nodes[i].connections.push(j);
+          }
+        }
+      }
+    }
+
+    let time = 0;
+
+    function draw() {
+      ctx.clearRect(0, 0, width, height);
+      time += 0.008;
+
+      for (const node of nodes) {
+        const floatX = Math.sin(time + node.phase) * 3;
+        const floatY = Math.cos(time * 0.7 + node.phase) * 3;
+
+        const dx = node.x - mouse.x;
+        const dy = node.y - mouse.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        let pushX = 0, pushY = 0;
+        if (dist < MOUSE_RADIUS && dist > 0) {
+          const force = (MOUSE_RADIUS - dist) / MOUSE_RADIUS;
+          pushX = (dx / dist) * force * 30;
+          pushY = (dy / dist) * force * 30;
+        }
+
+        node.vx += ((node.ox + floatX + pushX) - node.x) * 0.06;
+        node.vy += ((node.oy + floatY + pushY) - node.y) * 0.06;
+        node.vx *= 0.88;
+        node.vy *= 0.88;
+        node.x += node.vx;
+        node.y += node.vy;
+      }
+
+      // Draw connections
+      for (const node of nodes) {
+        for (const j of node.connections) {
+          const other = nodes[j];
+          const midX = (node.x + other.x) / 2;
+          const midY = (node.y + other.y) / 2;
+          const mouseDist = Math.sqrt((midX - mouse.x) ** 2 + (midY - mouse.y) ** 2);
+          const mouseInfluence = Math.max(0, 1 - mouseDist / (MOUSE_RADIUS * 1.5));
+
+          const alpha = 0.05 + mouseInfluence * 0.15;
+          const r = Math.round(43 + (200 - 43) * mouseInfluence);
+          const g = Math.round(48 + (124 - 48) * mouseInfluence);
+          const b = Math.round(135 + (41 - 135) * mouseInfluence);
+
+          ctx.beginPath();
+          ctx.moveTo(node.x, node.y);
+          ctx.lineTo(other.x, other.y);
+          ctx.strokeStyle = `rgba(${r},${g},${b},${alpha})`;
+          ctx.lineWidth = 0.5 + mouseInfluence * 0.5;
+          ctx.stroke();
+        }
+      }
+
+      // Draw nodes
+      for (const node of nodes) {
+        const dx = node.x - mouse.x;
+        const dy = node.y - mouse.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const mouseInfluence = Math.max(0, 1 - dist / MOUSE_RADIUS);
+
+        const pulse = Math.sin(time * 2 + node.phase) * 0.1;
+        const alpha = node.brightness + pulse + mouseInfluence * 0.5;
+        const radius = node.radius + mouseInfluence * 2;
+
+        if (mouseInfluence > 0.1) {
+          const glowRadius = radius * 4;
+          const glow = ctx.createRadialGradient(node.x, node.y, 0, node.x, node.y, glowRadius);
+          glow.addColorStop(0, `rgba(200, 124, 41, ${mouseInfluence * 0.12})`);
+          glow.addColorStop(1, 'rgba(200, 124, 41, 0)');
+          ctx.beginPath();
+          ctx.arc(node.x, node.y, glowRadius, 0, Math.PI * 2);
+          ctx.fillStyle = glow;
+          ctx.fill();
+        }
+
+        const r = Math.round(43 + (200 - 43) * mouseInfluence);
+        const g = Math.round(48 + (124 - 48) * mouseInfluence);
+        const b = Math.round(135 + (41 - 135) * mouseInfluence);
+
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${r},${g},${b},${alpha})`;
+        ctx.fill();
+      }
+
+      requestAnimationFrame(draw);
+    }
+
+    const section = document.getElementById('hero-section')!;
+    section.addEventListener('mousemove', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      mouse.x = e.clientX - rect.left;
+      mouse.y = e.clientY - rect.top;
+    });
+
+    section.addEventListener('mouseleave', () => {
+      mouse.x = -999;
+      mouse.y = -999;
+    });
+
+    window.addEventListener('resize', resize);
+    resize();
+    draw();
+  }
+</script>

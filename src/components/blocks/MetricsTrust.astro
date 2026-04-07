@@ -9,17 +9,62 @@ interface Props {
 }
 
 const { metrics } = Astro.props;
+
+// Duplicate metrics for seamless loop
+const items = [...metrics, ...metrics, ...metrics, ...metrics];
 ---
 
-<section class="py-16 border-y border-border/50">
-  <div class="max-w-[1120px] mx-auto px-6 lg:px-8">
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
-      {metrics.map((m) => (
-        <div class="text-center">
-          <div class="text-3xl md:text-4xl font-bold text-primary mb-2">{m.value}</div>
-          <p class="text-sm text-gray">{m.label}</p>
+<section class="py-12 bg-white overflow-hidden">
+  <div class="max-w-[1656px] mx-auto px-6 lg:px-8">
+  <div class="metrics-marquee">
+    <div class="metrics-track">
+      {items.map((m) => (
+        <div class="metrics-pill">
+          <span class="text-[#1a1a1a] font-bold text-lg">{m.value}</span>
+          <span class="text-[#1a1a1a]/40 text-sm font-medium">{m.label}</span>
         </div>
       ))}
     </div>
   </div>
+  </div>
 </section>
+
+<style>
+  .metrics-marquee {
+    width: 100%;
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+  }
+
+  .metrics-track {
+    display: flex;
+    gap: 20px;
+    width: max-content;
+    animation: marquee-scroll 25s linear infinite;
+  }
+
+  .metrics-pill {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 28px;
+    border-radius: 999px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    background: rgba(0, 0, 0, 0.02);
+    backdrop-filter: blur(4px);
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: border-color 0.3s, background 0.3s;
+  }
+
+  .metrics-pill:hover {
+    border-color: rgba(43, 48, 135, 0.3);
+    background: rgba(43, 48, 135, 0.04);
+  }
+
+  @keyframes marquee-scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-25%); }
+  }
+</style>

@@ -2,19 +2,21 @@
 import { t } from '../../i18n/config';
 ---
 
-<section id="cta" class="py-24 md:py-32 bg-accent-lightest">
-  <div class="max-w-3xl mx-auto px-6 lg:px-8 text-center">
-    <h2 class="text-3xl md:text-4xl font-bold text-primary leading-tight mb-6">{t('cta.title')}</h2>
-    <p class="text-lg text-gray leading-relaxed mb-10 max-w-2xl mx-auto">{t('cta.subtitle')}</p>
+<section id="cta" class="py-32 md:py-40 bg-[#0a0a0f]">
+  <div class="max-w-[1656px] mx-auto px-6 lg:px-8">
+    <div class="max-w-3xl">
+      <h2 class="text-4xl md:text-5xl lg:text-[80px] font-light text-white leading-[1.05] tracking-tight mb-8">{t('cta.title')}</h2>
+      <p class="text-lg md:text-xl text-white/50 leading-relaxed mb-12 max-w-xl">{t('cta.subtitle')}</p>
 
-    <a
-      href="/ru/audit/"
-      class="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-lg bg-primary text-white text-sm font-semibold uppercase tracking-wider hover:bg-primary-light transition-all duration-200"
-    >
-      {t('cta.primary')}
-      <svg class="w-5 h-5" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="10" x2="16" y2="10"/><polyline points="11,5 16,10 11,15"/></svg>
-    </a>
+      <a
+        href="/ru/audit/"
+        class="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-lg border border-white/20 text-white text-sm font-semibold uppercase tracking-wider hover:bg-white hover:text-[#0a0a0f] transition-all duration-300"
+      >
+        {t('cta.primary')}
+        <svg class="w-5 h-5" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="10" x2="16" y2="10"/><polyline points="11,5 16,10 11,15"/></svg>
+      </a>
 
-    <p class="text-sm text-gray mt-6">{t('cta.trust')}</p>
+      <p class="text-sm text-white/30 mt-8">{t('cta.trust')}</p>
+    </div>
   </div>
 </section>
