@@ -23,7 +23,9 @@ import { t } from '../../i18n/config';
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
       {services.map((service) => (
-        <a href={`/ru/uslugi/${service.slug}/`} class="group flex flex-col justify-between p-8 rounded-2xl border border-black/[0.06] bg-[#f8f8f8] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] hover:border-black/[0.1] transition-all duration-300 relative overflow-hidden aspect-square">
+        <a href={`/ru/uslugi/${service.slug}/`} class="service-card group flex flex-col justify-between p-8 rounded-2xl border border-black/[0.06] bg-[#f8f8f8] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] hover:border-black/[0.1] transition-all duration-300 relative overflow-hidden aspect-square">
+          <!-- Dot grid canvas -->
+          <canvas class="card-dots absolute inset-0 w-full h-full pointer-events-none"></canvas>
           <!-- Glass shine -->
           <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-black/[0.04] to-transparent"></div>
           <div class="absolute top-0 right-0 w-[1px] h-full bg-gradient-to-b from-transparent via-black/[0.03] to-transparent"></div>
@@ -63,3 +65,86 @@ import { t } from '../../i18n/config';
     </div>
   </div>
 </section>
+
+<script>
+  const GAP = 28;
+  const BASE_R = 1;
+  const MAX_R = 3.5;
+  const INFLUENCE = 100;
+  const BASE = { r: 210, g: 210, b: 215 };
+  const ACTIVE = { r: 43, g: 48, b: 135 };
+
+  document.querySelectorAll('.service-card').forEach((card) => {
+    const canvas = card.querySelector('.card-dots') as HTMLCanvasElement;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d')!;
+    let mouse = { x: -1000, y: -1000 };
+    let dots: { x: number; y: number }[] = [];
+    let raf: number;
+    let active = false;
+
+    function setup() {
+      const dpr = window.devicePixelRatio || 1;
+      const w = card.clientWidth;
+      const h = card.clientHeight;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      ctx.scale(dpr, dpr);
+
+      dots = [];
+      const cols = Math.ceil(w / GAP) + 1;
+      const rows = Math.ceil(h / GAP) + 1;
+      const ox = (w - (cols - 1) * GAP) / 2;
+      const oy = (h - (rows - 1) * GAP) / 2;
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          dots.push({ x: ox + c * GAP, y: oy + r * GAP });
+        }
+      }
+    }
+
+    function draw() {
+      const w = card.clientWidth;
+      const h = card.clientHeight;
+      ctx.clearRect(0, 0, w, h);
+      for (const dot of dots) {
+        const dx = dot.x - mouse.x;
+        const dy = dot.y - mouse.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const t = Math.max(0, 1 - dist / INFLUENCE);
+        const radius = BASE_R + (MAX_R - BASE_R) * t;
+        const r = Math.round(BASE.r + (ACTIVE.r - BASE.r) * t);
+        const g = Math.round(BASE.g + (ACTIVE.g - BASE.g) * t);
+        const b = Math.round(BASE.b + (ACTIVE.b - BASE.b) * t);
+        const alpha = 0.2 + 0.8 * t;
+        ctx.beginPath();
+        ctx.arc(dot.x, dot.y, radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${r},${g},${b},${alpha})`;
+        ctx.fill();
+      }
+      if (active) raf = requestAnimationFrame(draw);
+    }
+
+    card.addEventListener('mouseenter', () => {
+      active = true;
+      draw();
+    });
+
+    card.addEventListener('mousemove', (e: Event) => {
+      const me = e as MouseEvent;
+      const rect = (card as HTMLElement).getBoundingClientRect();
+      mouse.x = me.clientX - rect.left;
+      mouse.y = me.clientY - rect.top;
+    });
+
+    card.addEventListener('mouseleave', () => {
+      active = false;
+      mouse = { x: -1000, y: -1000 };
+      cancelAnimationFrame(raf);
+      ctx.clearRect(0, 0, card.clientWidth, card.clientHeight);
+    });
+
+    setup();
+    window.addEventListener('resize', setup);
+  });
+</script>
