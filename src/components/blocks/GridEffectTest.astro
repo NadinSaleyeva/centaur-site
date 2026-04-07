@@ -1,0 +1,251 @@
+---
+---
+
+<section class="py-24 bg-white">
+  <div class="max-w-[1656px] mx-auto px-6 lg:px-8">
+    <p class="text-center text-[#8a7a6b] text-[16px] font-medium tracking-[0.2em] uppercase mb-12">Выбери эффект</p>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+      <!-- A: Сетка линий — при наведении ячейки подсвечиваются -->
+      <div class="grid-card relative aspect-square rounded-2xl bg-[#f8f8f8] border border-black/[0.06] overflow-hidden cursor-pointer" data-effect="a">
+        <canvas class="grid-canvas absolute inset-0 w-full h-full"></canvas>
+        <div class="relative z-10 flex flex-col justify-between h-full p-8">
+          <span class="text-[11px] font-semibold text-[#2b3087] bg-[#2b3087]/[0.07] px-2.5 py-1 rounded-full self-start">Эффект A</span>
+          <div>
+            <h3 class="text-[22px] font-extrabold text-[#1a1a1a] mb-2">Подсветка ячеек</h3>
+            <p class="text-[14px] text-[#1a1a1a]/40">Ячейки сетки подсвечиваются рядом с курсором</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- B: Точки в пересечениях — при наведении точки увеличиваются + линии появляются -->
+      <div class="grid-card relative aspect-square rounded-2xl bg-[#f8f8f8] border border-black/[0.06] overflow-hidden cursor-pointer" data-effect="b">
+        <canvas class="grid-canvas absolute inset-0 w-full h-full"></canvas>
+        <div class="relative z-10 flex flex-col justify-between h-full p-8">
+          <span class="text-[11px] font-semibold text-[#2b3087] bg-[#2b3087]/[0.07] px-2.5 py-1 rounded-full self-start">Эффект B</span>
+          <div>
+            <h3 class="text-[22px] font-extrabold text-[#1a1a1a] mb-2">Сетка + точки</h3>
+            <p class="text-[14px] text-[#1a1a1a]/40">Линии сетки с точками на пересечениях, всё реагирует</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- C: Клетки сдвигаются / деформируются от курсора -->
+      <div class="grid-card relative aspect-square rounded-2xl bg-[#f8f8f8] border border-black/[0.06] overflow-hidden cursor-pointer" data-effect="c">
+        <canvas class="grid-canvas absolute inset-0 w-full h-full"></canvas>
+        <div class="relative z-10 flex flex-col justify-between h-full p-8">
+          <span class="text-[11px] font-semibold text-[#2b3087] bg-[#2b3087]/[0.07] px-2.5 py-1 rounded-full self-start">Эффект C</span>
+          <div>
+            <h3 class="text-[22px] font-extrabold text-[#1a1a1a] mb-2">Деформация сетки</h3>
+            <p class="text-[14px] text-[#1a1a1a]/40">Линии сетки отталкиваются и деформируются от курсора</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+  const CELL = 90;
+  const INFLUENCE = 150;
+  const COLOR = { r: 43, g: 48, b: 135 };
+
+  document.querySelectorAll('.grid-card').forEach((card) => {
+    const canvas = card.querySelector('.grid-canvas') as HTMLCanvasElement;
+    const effect = card.getAttribute('data-effect');
+    const ctx = canvas.getContext('2d')!;
+    let mouse = { x: -1000, y: -1000 };
+    let raf: number;
+    let active = false;
+
+    function setup() {
+      const dpr = window.devicePixelRatio || 1;
+      const w = (card as HTMLElement).clientWidth;
+      const h = (card as HTMLElement).clientHeight;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    function drawA() {
+      const w = (card as HTMLElement).clientWidth;
+      const h = (card as HTMLElement).clientHeight;
+      ctx.clearRect(0, 0, w, h);
+
+      const cols = Math.ceil(w / CELL);
+      const rows = Math.ceil(h / CELL);
+
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const cx = c * CELL + CELL / 2;
+          const cy = r * CELL + CELL / 2;
+          const dx = cx - mouse.x;
+          const dy = cy - mouse.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          const t = Math.max(0, 1 - dist / INFLUENCE);
+
+          if (t > 0) {
+            ctx.fillStyle = `rgba(${COLOR.r},${COLOR.g},${COLOR.b},${t * 0.12})`;
+            ctx.fillRect(c * CELL, r * CELL, CELL, CELL);
+          }
+
+          // Grid lines always visible faintly
+          ctx.strokeStyle = `rgba(0,0,0,${0.03 + t * 0.06})`;
+          ctx.lineWidth = 0.5;
+          ctx.strokeRect(c * CELL, r * CELL, CELL, CELL);
+        }
+      }
+      if (active) raf = requestAnimationFrame(drawA);
+    }
+
+    function drawB() {
+      const w = (card as HTMLElement).clientWidth;
+      const h = (card as HTMLElement).clientHeight;
+      ctx.clearRect(0, 0, w, h);
+
+      const cols = Math.ceil(w / CELL) + 1;
+      const rows = Math.ceil(h / CELL) + 1;
+
+      // Draw grid lines
+      for (let r = 0; r < rows; r++) {
+        const y = r * CELL;
+        // Check closest point on this line to mouse
+        const dy = Math.abs(y - mouse.y);
+        const lt = Math.max(0, 1 - dy / INFLUENCE);
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(w, y);
+        ctx.strokeStyle = `rgba(0,0,0,${0.04 + lt * 0.08})`;
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+      }
+      for (let c = 0; c < cols; c++) {
+        const x = c * CELL;
+        const dx = Math.abs(x - mouse.x);
+        const lt = Math.max(0, 1 - dx / INFLUENCE);
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, h);
+        ctx.strokeStyle = `rgba(0,0,0,${0.04 + lt * 0.08})`;
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+      }
+
+      // Draw dots at intersections
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const x = c * CELL;
+          const y = r * CELL;
+          const dx = x - mouse.x;
+          const dy = y - mouse.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          const t = Math.max(0, 1 - dist / INFLUENCE);
+          const radius = 1 + t * 3;
+          const alpha = 0.15 + t * 0.7;
+
+          const cr = Math.round(200 + (COLOR.r - 200) * t);
+          const cg = Math.round(200 + (COLOR.g - 200) * t);
+          const cb = Math.round(200 + (COLOR.b - 200) * t);
+
+          ctx.beginPath();
+          ctx.arc(x, y, radius, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${cr},${cg},${cb},${alpha})`;
+          ctx.fill();
+        }
+      }
+      if (active) raf = requestAnimationFrame(drawB);
+    }
+
+    function drawC() {
+      const w = (card as HTMLElement).clientWidth;
+      const h = (card as HTMLElement).clientHeight;
+      ctx.clearRect(0, 0, w, h);
+
+      const cols = Math.ceil(w / CELL) + 1;
+      const rows = Math.ceil(h / CELL) + 1;
+
+      // Calculate displaced grid points
+      const points: { x: number; y: number }[][] = [];
+      for (let r = 0; r < rows; r++) {
+        points[r] = [];
+        for (let c = 0; c < cols; c++) {
+          let x = c * CELL;
+          let y = r * CELL;
+          const dx = x - mouse.x;
+          const dy = y - mouse.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < INFLUENCE && dist > 0) {
+            const force = (INFLUENCE - dist) / INFLUENCE;
+            const pushX = (dx / dist) * force * 20;
+            const pushY = (dy / dist) * force * 20;
+            x += pushX;
+            y += pushY;
+          }
+          points[r][c] = { x, y };
+        }
+      }
+
+      // Draw displaced grid
+      ctx.strokeStyle = 'rgba(0,0,0,0.06)';
+      ctx.lineWidth = 0.5;
+
+      // Horizontal lines
+      for (let r = 0; r < rows; r++) {
+        ctx.beginPath();
+        for (let c = 0; c < cols; c++) {
+          if (c === 0) ctx.moveTo(points[r][c].x, points[r][c].y);
+          else ctx.lineTo(points[r][c].x, points[r][c].y);
+        }
+        ctx.stroke();
+      }
+
+      // Vertical lines
+      for (let c = 0; c < cols; c++) {
+        ctx.beginPath();
+        for (let r = 0; r < rows; r++) {
+          if (r === 0) ctx.moveTo(points[r][c].x, points[r][c].y);
+          else ctx.lineTo(points[r][c].x, points[r][c].y);
+        }
+        ctx.stroke();
+      }
+
+      // Dots at displaced intersections near mouse
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const p = points[r][c];
+          const dx = p.x - mouse.x;
+          const dy = p.y - mouse.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          const t = Math.max(0, 1 - dist / INFLUENCE);
+          if (t > 0.05) {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, 1 + t * 2.5, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(${COLOR.r},${COLOR.g},${COLOR.b},${t * 0.6})`;
+            ctx.fill();
+          }
+        }
+      }
+
+      if (active) raf = requestAnimationFrame(drawC);
+    }
+
+    const drawFn = effect === 'a' ? drawA : effect === 'b' ? drawB : drawC;
+
+    card.addEventListener('mousemove', (e: Event) => {
+      const me = e as MouseEvent;
+      const rect = (card as HTMLElement).getBoundingClientRect();
+      mouse.x = me.clientX - rect.left;
+      mouse.y = me.clientY - rect.top;
+    });
+    card.addEventListener('mouseleave', () => {
+      mouse = { x: -1000, y: -1000 };
+    });
+
+    // Always running
+    active = true;
+    setup();
+    drawFn();
+    window.addEventListener('resize', setup);
+  });
+</script>

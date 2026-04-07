@@ -1,0 +1,387 @@
+---
+const reviews = [
+  { city: 'Москва', country: 'Россия', x: 58, y: 28, name: 'Алексей Петров', role: 'CEO, TechFlow', text: 'ИИ-агент полностью автоматизировал обработку заявок. За первый месяц конверсия выросла на 34%.' },
+  { city: 'Нью-Йорк', country: 'США', x: 25, y: 32, name: 'Sarah Mitchell', role: 'COO, DataBridge', text: 'The AI agent handles 1600+ requests per month. Our team now focuses on strategy instead of routine.' },
+  { city: 'Дубай', country: 'ОАЭ', x: 60, y: 42, name: 'Ahmed Al-Rashid', role: 'Founder, GulfTech', text: 'Centaur Labs delivered in 4 weeks. The parser collects data from 200+ sources automatically.' },
+  { city: 'Лондон', country: 'UK', x: 47, y: 26, name: 'James Crawford', role: 'CTO, FinScale', text: 'Seamless integration with our CRM. The bot qualifies leads 24/7 with zero human intervention.' },
+  { city: 'Тель-Авив', country: 'Израиль', x: 57, y: 38, name: 'Noa Levi', role: 'VP Product, Nextar', text: 'Лучшее решение для автоматизации клиентского сервиса. ROI окупился за 3 недели.' },
+];
+---
+
+<section class="py-24 bg-white">
+  <div class="max-w-[1656px] mx-auto px-6 lg:px-8">
+
+    <!-- ВАРИАНТ A — Интерактивная карта -->
+    <div class="mb-32">
+      <p class="text-center text-[11px] font-semibold text-[#2b3087]/50 uppercase tracking-wider mb-4">Вариант A — Карта</p>
+      <div class="text-center mb-12">
+        <h2 class="text-4xl md:text-5xl lg:text-[70px] font-extrabold leading-[1.1] tracking-tight mb-6 text-[#1a1a1a]">Наши клиенты по всему миру</h2>
+        <p class="max-w-2xl mx-auto text-[#1a1a1a]/40 text-[16px] leading-relaxed font-medium">Внедряем ИИ-агентов для бизнесов от Нью-Йорка до Москвы</p>
+      </div>
+
+      <div class="relative bg-[#f8f8f8] rounded-2xl border border-black/[0.06] p-8 overflow-hidden" id="map-container" style="min-height: 500px;">
+        <canvas id="world-map" class="w-full h-full absolute inset-0"></canvas>
+        <!-- Review popup -->
+        <div id="map-popup" class="absolute z-20 hidden bg-white rounded-xl shadow-[0_8px_30px_rgba(0,0,0,0.12)] border border-black/[0.06] p-6 max-w-[300px] transition-all duration-200">
+          <p class="text-[11px] font-semibold text-[#2b3087] uppercase tracking-wider mb-2" id="popup-city"></p>
+          <p class="text-[14px] text-[#1a1a1a] leading-relaxed mb-4" id="popup-text"></p>
+          <div>
+            <p class="text-[14px] font-bold text-[#1a1a1a]" id="popup-name"></p>
+            <p class="text-[12px] text-[#1a1a1a]/40" id="popup-role"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ВАРИАНТ B — Созвездие городов -->
+    <div class="mb-32">
+      <p class="text-center text-[11px] font-semibold text-[#2b3087]/50 uppercase tracking-wider mb-4">Вариант B — Созвездие</p>
+      <div class="text-center mb-12">
+        <h2 class="text-4xl md:text-5xl lg:text-[70px] font-extrabold leading-[1.1] tracking-tight mb-6 text-[#1a1a1a]">Наши клиенты по всему миру</h2>
+        <p class="max-w-2xl mx-auto text-[#1a1a1a]/40 text-[16px] leading-relaxed font-medium">Внедряем ИИ-агентов для бизнесов от Нью-Йорка до Москвы</p>
+      </div>
+
+      <div class="relative bg-[#f8f8f8] rounded-2xl border border-black/[0.06] overflow-hidden" id="constellation-container" style="min-height: 500px;">
+        <canvas id="city-constellation" class="w-full h-full absolute inset-0"></canvas>
+        <div id="const-popup" class="absolute z-20 hidden bg-white rounded-xl shadow-[0_8px_30px_rgba(0,0,0,0.12)] border border-black/[0.06] p-6 max-w-[300px]">
+          <p class="text-[11px] font-semibold text-[#2b3087] uppercase tracking-wider mb-2" id="const-city"></p>
+          <p class="text-[14px] text-[#1a1a1a] leading-relaxed mb-4" id="const-text"></p>
+          <div>
+            <p class="text-[14px] font-bold text-[#1a1a1a]" id="const-name"></p>
+            <p class="text-[12px] text-[#1a1a1a]/40" id="const-role"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ВАРИАНТ C — Вращающееся кольцо карточек -->
+    <div>
+      <p class="text-center text-[11px] font-semibold text-[#2b3087]/50 uppercase tracking-wider mb-4">Вариант C — Кольцо</p>
+      <div class="text-center mb-12">
+        <h2 class="text-4xl md:text-5xl lg:text-[70px] font-extrabold leading-[1.1] tracking-tight mb-6 text-[#1a1a1a]">Наши клиенты по всему миру</h2>
+        <p class="max-w-2xl mx-auto text-[#1a1a1a]/40 text-[16px] leading-relaxed font-medium">Внедряем ИИ-агентов для бизнесов от Нью-Йорка до Москвы</p>
+      </div>
+
+      <div class="relative overflow-hidden" id="ring-container" style="height: 500px; perspective: 1000px;">
+        <div id="ring-track" class="absolute inset-0 flex items-center justify-center" style="transform-style: preserve-3d;">
+          {reviews.map((r, i) => (
+            <div class="ring-card absolute p-6 rounded-2xl border border-black/[0.06] bg-white shadow-[0_4px_20px_rgba(0,0,0,0.06)] w-[280px]" data-index={i}>
+              <p class="text-[11px] font-semibold text-[#2b3087] uppercase tracking-wider mb-3">{r.city}, {r.country}</p>
+              <p class="text-[14px] text-[#1a1a1a] leading-relaxed mb-4">{r.text}</p>
+              <div>
+                <p class="text-[14px] font-bold text-[#1a1a1a]">{r.name}</p>
+                <p class="text-[12px] text-[#1a1a1a]/40">{r.role}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  // Data
+  const reviews = [
+    { city: 'Москва', country: 'Россия', x: 58, y: 28, name: 'Алексей Петров', role: 'CEO, TechFlow', text: 'ИИ-агент полностью автоматизировал обработку заявок. За первый месяц конверсия выросла на 34%.' },
+    { city: 'Нью-Йорк', country: 'США', x: 25, y: 32, name: 'Sarah Mitchell', role: 'COO, DataBridge', text: 'The AI agent handles 1600+ requests per month. Our team now focuses on strategy instead of routine.' },
+    { city: 'Дубай', country: 'ОАЭ', x: 60, y: 42, name: 'Ahmed Al-Rashid', role: 'Founder, GulfTech', text: 'Centaur Labs delivered in 4 weeks. The parser collects data from 200+ sources automatically.' },
+    { city: 'Лондон', country: 'UK', x: 47, y: 26, name: 'James Crawford', role: 'CTO, FinScale', text: 'Seamless integration with our CRM. The bot qualifies leads 24/7 with zero human intervention.' },
+    { city: 'Тель-Авив', country: 'Израиль', x: 57, y: 38, name: 'Noa Levi', role: 'VP Product, Nextar', text: 'Лучшее решение для автоматизации клиентского сервиса. ROI окупился за 3 недели.' },
+  ];
+
+  // ==================== ВАРИАНТ A — Карта ====================
+  const mapCanvas = document.getElementById('world-map') as HTMLCanvasElement;
+  const mapContainer = document.getElementById('map-container') as HTMLElement;
+  const mapPopup = document.getElementById('map-popup') as HTMLElement;
+
+  if (mapCanvas && mapContainer) {
+    const ctx = mapCanvas.getContext('2d')!;
+    let time = 0;
+
+    function setupMap() {
+      const dpr = window.devicePixelRatio || 1;
+      const w = mapContainer.clientWidth;
+      const h = mapContainer.clientHeight;
+      mapCanvas.width = w * dpr;
+      mapCanvas.height = h * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    function drawMap() {
+      const w = mapContainer.clientWidth;
+      const h = mapContainer.clientHeight;
+      ctx.clearRect(0, 0, w, h);
+      time += 0.02;
+
+      // Draw subtle dot grid as world texture
+      const gap = 12;
+      for (let y = 0; y < h; y += gap) {
+        for (let x = 0; x < w; x += gap) {
+          // Simple world shape using sine waves
+          const nx = x / w;
+          const ny = y / h;
+          const land = Math.sin(nx * 8 + 0.5) * Math.sin(ny * 6) * 0.5 +
+                       Math.sin(nx * 12 + 2) * Math.cos(ny * 8 + 1) * 0.3 +
+                       Math.sin(nx * 4) * Math.sin(ny * 3 + 0.5) * 0.4;
+          if (land > 0.1) {
+            ctx.beginPath();
+            ctx.arc(x, y, 0.8, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(0,0,0,${0.06 + land * 0.04})`;
+            ctx.fill();
+          }
+        }
+      }
+
+      // Draw city points
+      reviews.forEach((r, i) => {
+        const px = (r.x / 100) * w;
+        const py = (r.y / 100) * h;
+        const pulse = Math.sin(time * 2 + i) * 0.5 + 0.5;
+
+        // Outer pulse
+        ctx.beginPath();
+        ctx.arc(px, py, 8 + pulse * 6, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(43, 48, 135, ${0.06 + pulse * 0.06})`;
+        ctx.fill();
+
+        // Inner dot
+        ctx.beginPath();
+        ctx.arc(px, py, 4, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(43, 48, 135, 0.7)';
+        ctx.fill();
+
+        // White center
+        ctx.beginPath();
+        ctx.arc(px, py, 1.5, 0, Math.PI * 2);
+        ctx.fillStyle = 'white';
+        ctx.fill();
+      });
+
+      // Draw connection lines
+      ctx.strokeStyle = 'rgba(43, 48, 135, 0.06)';
+      ctx.lineWidth = 0.5;
+      for (let i = 0; i < reviews.length; i++) {
+        for (let j = i + 1; j < reviews.length; j++) {
+          ctx.beginPath();
+          ctx.moveTo((reviews[i].x / 100) * w, (reviews[i].y / 100) * h);
+          ctx.lineTo((reviews[j].x / 100) * w, (reviews[j].y / 100) * h);
+          ctx.stroke();
+        }
+      }
+
+      requestAnimationFrame(drawMap);
+    }
+
+    mapContainer.addEventListener('click', (e) => {
+      const rect = mapContainer.getBoundingClientRect();
+      const mx = e.clientX - rect.left;
+      const my = e.clientY - rect.top;
+      const w = mapContainer.clientWidth;
+      const h = mapContainer.clientHeight;
+
+      let found = false;
+      reviews.forEach((r) => {
+        const px = (r.x / 100) * w;
+        const py = (r.y / 100) * h;
+        const dist = Math.sqrt((mx - px) ** 2 + (my - py) ** 2);
+        if (dist < 30) {
+          (document.getElementById('popup-city') as HTMLElement).textContent = r.city + ', ' + r.country;
+          (document.getElementById('popup-text') as HTMLElement).textContent = r.text;
+          (document.getElementById('popup-name') as HTMLElement).textContent = r.name;
+          (document.getElementById('popup-role') as HTMLElement).textContent = r.role;
+          mapPopup.style.left = Math.min(px + 20, w - 320) + 'px';
+          mapPopup.style.top = Math.max(py - 80, 10) + 'px';
+          mapPopup.classList.remove('hidden');
+          found = true;
+        }
+      });
+      if (!found) mapPopup.classList.add('hidden');
+    });
+
+    setupMap();
+    drawMap();
+    window.addEventListener('resize', setupMap);
+  }
+
+  // ==================== ВАРИАНТ B — Созвездие ====================
+  const constCanvas = document.getElementById('city-constellation') as HTMLCanvasElement;
+  const constContainer = document.getElementById('constellation-container') as HTMLElement;
+  const constPopup = document.getElementById('const-popup') as HTMLElement;
+
+  if (constCanvas && constContainer) {
+    const ctx2 = constCanvas.getContext('2d')!;
+    let mouse2 = { x: -999, y: -999 };
+    let time2 = 0;
+
+    // Position cities in a constellation pattern
+    const positions = [
+      { cx: 0.2, cy: 0.4 },  // Нью-Йорк
+      { cx: 0.45, cy: 0.3 }, // Лондон
+      { cx: 0.55, cy: 0.25 },// Москва
+      { cx: 0.58, cy: 0.5 }, // Дубай
+      { cx: 0.5, cy: 0.45 }, // Тель-Авив
+    ];
+    // Reorder to match reviews array
+    const constPositions = [
+      { cx: 0.55, cy: 0.25 }, // Москва
+      { cx: 0.2, cy: 0.4 },   // Нью-Йорк
+      { cx: 0.58, cy: 0.5 },  // Дубай
+      { cx: 0.4, cy: 0.3 },   // Лондон
+      { cx: 0.5, cy: 0.45 },  // Тель-Авив
+    ];
+
+    // Add random stars
+    const stars: { x: number; y: number; s: number; p: number }[] = [];
+    for (let i = 0; i < 60; i++) {
+      stars.push({ x: Math.random(), y: Math.random(), s: 0.5 + Math.random(), p: Math.random() * Math.PI * 2 });
+    }
+
+    function setupConst() {
+      const dpr = window.devicePixelRatio || 1;
+      const w = constContainer.clientWidth;
+      const h = constContainer.clientHeight;
+      constCanvas.width = w * dpr;
+      constCanvas.height = h * dpr;
+      ctx2.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    function drawConst() {
+      const w = constContainer.clientWidth;
+      const h = constContainer.clientHeight;
+      ctx2.clearRect(0, 0, w, h);
+      time2 += 0.01;
+
+      // Background stars
+      stars.forEach((s) => {
+        const alpha = 0.15 + Math.sin(time2 * 2 + s.p) * 0.1;
+        ctx2.beginPath();
+        ctx2.arc(s.x * w, s.y * h, s.s, 0, Math.PI * 2);
+        ctx2.fillStyle = `rgba(43, 48, 135, ${alpha})`;
+        ctx2.fill();
+      });
+
+      // Connection lines
+      ctx2.strokeStyle = 'rgba(43, 48, 135, 0.08)';
+      ctx2.lineWidth = 0.8;
+      for (let i = 0; i < constPositions.length; i++) {
+        for (let j = i + 1; j < constPositions.length; j++) {
+          ctx2.beginPath();
+          ctx2.moveTo(constPositions[i].cx * w, constPositions[i].cy * h);
+          ctx2.lineTo(constPositions[j].cx * w, constPositions[j].cy * h);
+          ctx2.stroke();
+        }
+      }
+
+      // City nodes
+      constPositions.forEach((pos, i) => {
+        const px = pos.cx * w;
+        const py = pos.cy * h;
+        const dx = px - mouse2.x;
+        const dy = py - mouse2.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const hover = dist < 40;
+        const pulse = Math.sin(time2 * 2 + i * 1.2) * 0.5 + 0.5;
+
+        // Glow
+        const glowR = hover ? 30 : 15 + pulse * 5;
+        const glow = ctx2.createRadialGradient(px, py, 0, px, py, glowR);
+        glow.addColorStop(0, `rgba(43, 48, 135, ${hover ? 0.2 : 0.08})`);
+        glow.addColorStop(1, 'rgba(43, 48, 135, 0)');
+        ctx2.beginPath();
+        ctx2.arc(px, py, glowR, 0, Math.PI * 2);
+        ctx2.fillStyle = glow;
+        ctx2.fill();
+
+        // Dot
+        ctx2.beginPath();
+        ctx2.arc(px, py, hover ? 6 : 4, 0, Math.PI * 2);
+        ctx2.fillStyle = hover ? 'rgba(43, 48, 135, 0.9)' : 'rgba(43, 48, 135, 0.5)';
+        ctx2.fill();
+
+        // Label
+        ctx2.font = '500 12px Mulish, sans-serif';
+        ctx2.fillStyle = hover ? 'rgba(26, 26, 26, 0.8)' : 'rgba(26, 26, 26, 0.3)';
+        ctx2.textAlign = 'center';
+        ctx2.fillText(reviews[i].city, px, py - 14);
+      });
+
+      requestAnimationFrame(drawConst);
+    }
+
+    constContainer.addEventListener('mousemove', (e) => {
+      const rect = constContainer.getBoundingClientRect();
+      mouse2.x = e.clientX - rect.left;
+      mouse2.y = e.clientY - rect.top;
+    });
+
+    constContainer.addEventListener('mouseleave', () => {
+      mouse2 = { x: -999, y: -999 };
+      constPopup.classList.add('hidden');
+    });
+
+    constContainer.addEventListener('click', (e) => {
+      const rect = constContainer.getBoundingClientRect();
+      const mx = e.clientX - rect.left;
+      const my = e.clientY - rect.top;
+      const w = constContainer.clientWidth;
+      const h = constContainer.clientHeight;
+
+      let found = false;
+      constPositions.forEach((pos, i) => {
+        const px = pos.cx * w;
+        const py = pos.cy * h;
+        if (Math.sqrt((mx - px) ** 2 + (my - py) ** 2) < 30) {
+          const r = reviews[i];
+          (document.getElementById('const-city') as HTMLElement).textContent = r.city + ', ' + r.country;
+          (document.getElementById('const-text') as HTMLElement).textContent = r.text;
+          (document.getElementById('const-name') as HTMLElement).textContent = r.name;
+          (document.getElementById('const-role') as HTMLElement).textContent = r.role;
+          constPopup.style.left = Math.min(px + 20, w - 320) + 'px';
+          constPopup.style.top = Math.max(py - 80, 10) + 'px';
+          constPopup.classList.remove('hidden');
+          found = true;
+        }
+      });
+      if (!found) constPopup.classList.add('hidden');
+    });
+
+    setupConst();
+    drawConst();
+    window.addEventListener('resize', setupConst);
+  }
+
+  // ==================== ВАРИАНТ C — Кольцо ====================
+  const ringContainer = document.getElementById('ring-container') as HTMLElement;
+  const ringCards = document.querySelectorAll('.ring-card') as NodeListOf<HTMLElement>;
+
+  if (ringContainer && ringCards.length) {
+    let angle = 0;
+    const RADIUS = 350;
+    const count = ringCards.length;
+
+    function animateRing() {
+      angle += 0.003;
+      const cx = ringContainer.clientWidth / 2;
+      const cy = ringContainer.clientHeight / 2;
+
+      ringCards.forEach((card, i) => {
+        const a = angle + (i / count) * Math.PI * 2;
+        const x = Math.cos(a) * RADIUS;
+        const z = Math.sin(a) * RADIUS;
+        const scale = 0.6 + (z + RADIUS) / (RADIUS * 2) * 0.4;
+        const opacity = 0.3 + (z + RADIUS) / (RADIUS * 2) * 0.7;
+        const zIndex = Math.round((z + RADIUS) * 10);
+
+        card.style.transform = `translate(${cx + x - 140}px, ${cy - 120}px) scale(${scale})`;
+        card.style.opacity = String(opacity);
+        card.style.zIndex = String(zIndex);
+      });
+
+      requestAnimationFrame(animateRing);
+    }
+
+    animateRing();
+  }
+</script>

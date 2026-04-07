@@ -9,6 +9,7 @@ import SectionDivider from '../../components/shared/SectionDivider.astro';
 import IndustryGrid from '../../components/blocks/IndustryGrid.astro';
 import ProcessTimeline from '../../components/blocks/ProcessTimeline.astro';
 import CTABlock from '../../components/shared/CTABlock.astro';
+import ReviewsTest from '../../components/blocks/ReviewsTest.astro';
 import { t } from '../../i18n/config';
 ---
 
@@ -41,11 +42,11 @@ import { t } from '../../i18n/config';
   <!-- Разделитель -->
   <SectionDivider text="ИИ-АГЕНТЫ В ДЕЙСТВИИ" />
 
-  <!-- Workflow Animation -->
-  <WorkflowAnimation />
-
   <!-- 04. ИИ-агент ≠ чат-бот -->
   <AgentVsBot />
+
+  <!-- Workflow Animation -->
+  <WorkflowAnimation />
 
   <!-- 05. Отрасли -->
   <SectionDivider text="ДЛЯ КОГО" />
@@ -55,7 +56,8 @@ import { t } from '../../i18n/config';
   <SectionDivider text="КАК МЫ РАБОТАЕМ" />
   <ProcessTimeline />
 
-  <!-- 07. Социальное доказательство (placeholder) -->
+  <!-- 07. Тест отзывов -->
+  <ReviewsTest />
 
   <!-- 08. Финальный CTA -->
   <CTABlock />
