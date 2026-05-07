@@ -374,7 +374,9 @@ const reviews = [
         const opacity = 0.3 + (z + RADIUS) / (RADIUS * 2) * 0.7;
         const zIndex = Math.round((z + RADIUS) * 10);
 
-        card.style.transform = `translate(${cx + x - 140}px, ${cy - 120}px) scale(${scale})`;
+        card.style.left = '50%';
+        card.style.top = '50%';
+        card.style.transform = `translate(calc(-50% + ${x}px), calc(-50%)) scale(${scale})`;
         card.style.opacity = String(opacity);
         card.style.zIndex = String(zIndex);
       });
